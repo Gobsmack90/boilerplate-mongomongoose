@@ -63,7 +63,7 @@ const findPersonById = (personId, done) => {
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
-  Person.update(personId, (err, person) => {
+  Person.findById(personId, (err, person) => {
     if (err) return console.log(err);
     if (person.favoriteFoods.includes(foodToAdd)) {
       done(null, person);
@@ -73,6 +73,11 @@ const findEditThenSave = (personId, done) => {
         ...person.favoriteFoods,
         foodToAdd]
     };
+
+    person.save((err,updatedPerson) => {
+      if (err) return console.log(err);
+      done(null, person);
+    })
   })
 };
 
